@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kết quả dự đoán tiểu đường</title>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #f6f6ff 60%, #e6e6ff 100%); font-family: 'Segoe UI', Arial, sans-serif; }
+        .card { border-radius: 18px; box-shadow: 0 6px 32px #c1c8f6; background: #fff; }
+        .ai-robot { display: flex; justify-content: center; margin-bottom: 10px; margin-top: 16px; }
+        .ai-robot img { width: 82px; height: 82px; object-fit: cover; border-radius: 50%; box-shadow: 0 3px 9px #bcc4f3; background: #fff; }
+        h2 { text-align: center; color: #4038c2; margin-bottom: 12px; }
+        .result-box { margin-top: 24px; padding: 20px 14px 10px 14px; background: #f9f7ff; border-radius: 12px; box-shadow: 0 2px 8px #d6dbfa55; font-size: 17px; }
+        .soft-voting { color: #4b48d6; font-size: 22px; font-weight: bold; }
+        @media (max-width: 700px) { .card { padding: 0 !important; border-radius: 8px; } .container { padding: 0 !important;} }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card p-4">
+                    <div class="ai-robot">
+                        <img src="{{ url_for('static', filename='anh.png') }}" alt="AI Robot">
+                    </div>
+                    <h2>Kết quả dự đoán tiểu đường</h2>
+                    {% if detail %}
+                    <div class="result-box mt-4">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-size:28px;">🤖</span>
+                            <div>
+                                <b>Nguy cơ mắc tiểu đường:</b>
+                                <span class="soft-voting">{{ detail['soft_voting']|round(2) }}%</span>
+                            </div>
+                        </div>
+                        <div style="font-size: 15px; color: #414879; margin-top: 10px;">
+                            <b>Logistic Regression:</b> {{ detail['logistic']|round(2) }}%<br>
+                            <b>KNN:</b> {{ detail['knn']|round(2) }}%<br>
+                            <b>Random Forest:</b> {{ detail['rf']|round(2) }}%
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-warning mt-4">Không có dữ liệu kết quả. Vui lòng dự đoán lại từ đầu!</div>
+                    {% endif %}
+                    <div class="mt-3">
+                        <a href="{{ url_for('index') }}" class="btn btn-secondary w-100">← Quay lại trang nhập dữ liệu</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
